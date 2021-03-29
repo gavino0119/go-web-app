@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"go-web-app/logger"
 	"go-web-app/settings"
+	"go.uber.org/zap"
 )
 
 /**
@@ -15,6 +17,12 @@ func main() {
 		return
 	}
 	// 2. 初始化日志
+	if err := logger.Init(); err != nil {
+		fmt.Println("init logger failed, err:%v\n", err)
+		return
+	}
+	defer zap.L().Sync()
+	zap.L().Debug("logger init success...")
 	// 3. 初始化MySQL连接
 	// 4. 初始化redis连接
 	// 5. 注册路由
